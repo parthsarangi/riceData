@@ -27,8 +27,40 @@ df2.Province <- df1.factor$Province_Code - df2.Province_min
 
 df3 <- data.frame(Year_coded=df2.Year_2532,Region_coded=df2.Regional,Province_coded=df2.Province)
 
+df3 <- cbind(df3,df1.continuous)
+
+write.csv(df3,"riceData_coded.csv",quote = TRUE,row.names = FALSE)
+
+n = names(df3)
+f <- as.formula(paste(n[18]," ~ ",paste(n[-18],collapse = " + ")))
+
+set.seed(2)
+indx <- sample(round(nrow(df3)*0.7))
 
 
+# min max normalization
+normalizeMinMax <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+
+df3.minmax <- as.data.frame(lapply(df3,normalizeMinMax))
+
+
+df4.train <- df3.minmax[indx,]
+
+df4.test <- df3.minmax[-indx,]
+
+
+library(neuralnet)
+
+neuralNetwork <- neuralnet(f,df4.train,hidden = c(10,4),linear.output = TRUE)
+
+computed_labels <- compute(neuralNetwork,df4.test[-18])
+
+df4.test <- cbind(df4.test,Predicted=as.data.frame(computed_labels$net.result))
+
+write.csv(df4.test,"testing_data.csv",row.names = FALSE,quote=TRUE)
+saveRDS(neuralNetwork,"neuralnet104.RDS")
 #-------------------- data wrangling
 
 
