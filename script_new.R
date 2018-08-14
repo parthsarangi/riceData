@@ -53,42 +53,45 @@ df4.test <- df3.minmax[-indx,]
 
 library(neuralnet)
 
-neuralNetwork <- neuralnet(f,df4.train,hidden = c(10,4),linear.output = TRUE)
+df4.test <- df3.minmax[-indx,]
 
-computed_labels <- compute(neuralNetwork,df4.test[-18])
+
+k=1
+for(i in c(1:4)){
+  for(j in c(1:2)){
+    print(paste0("neural ",i,j))
+    start.time <- Sys.time()
+    
+    neuralNetwork <- neuralnet(f,df4.train,hidden = c(i,j),linear.output = TRUE)
+    end.time <- Sys.time()
+    time.taken <- end.time - start.time
+
+    list_time_taken[[k]] <- time.taken
+    
+    computed_labels <- compute(neuralNetwork,df4.test[c(1:17)])
+    df4.test <- cbind(df4.test,as.data.frame(computed_labels$net.result))
+    #k <- k + 1
+    #names(df4.test)[]
+  }
+}
+
+df4.test.len <- length(names(df4.test[c(-1:-18)]))
+
+
+for(i in c(1:df4.test.len)){
+  print(names(df4.test[c(-1:-18)])[i])
+  print(paste0("Predicted_by_neural_",i))
+  colnames(df4.test[c(18+i)]) <- paste0("Predicted_by_neural_",i)
+  }
+
+
+
+plot(neuralNetwork)
 
 df4.test <- cbind(df4.test,Predicted=as.data.frame(computed_labels$net.result))
+df4.test <- df3.minmax[-indx,]
 
 write.csv(df4.test,"testing_data.csv",row.names = FALSE,quote=TRUE)
 saveRDS(neuralNetwork,"neuralnet104.RDS")
 #-------------------- data wrangling
 
-
-
-df2 <- lapply(df1[c(4:18)],as.numeric)
-
-n = names(df2)
-f <- as.formula(paste(n[15]," ~ ",paste(n[-15],collapse = " + ")))
-
-df3 = as.data.frame(lapply(df2,  scale))
-df3.matrix = as.matrix(df3)
-
-library(nnet)
-library(neuralnet)
-
-nn.fit = neuralnet(f,data = df3,hidden=c(8,2),linear.output = TRUE,stepmax=1e6)
-saveRDS(nn.fit,file = "neuralnet_8,2.RDS")
-
-
-set.seed(2)
-indx <- sample(round(nrow(df4)*0.3))
-
-testingData <- df3[indx,]
-actual_value = testingData[15]
-
-predicted_val = compute(nn.fit,testingData)
-final = cbind(testingData,actual_value,predicted_val$net.result)
-
-write.csv(final,"regression.csv",quote = TRUE,row.names = FALSE)
-
-plot(nn.fit)
