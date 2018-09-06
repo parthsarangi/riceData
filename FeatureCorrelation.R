@@ -17,3 +17,8 @@ for(n in c(1:ncol(df1))) {
   df1[[n]] <- as.numeric(df1[[n]])
 }
 
+correlation = cor(df1)
+
+write.csv(correlation,"correlation.csv")
+
+

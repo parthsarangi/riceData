@@ -47,7 +47,6 @@ df3.minmax <- as.data.frame(lapply(df3,normalizeMinMax))
 
 
 df4.train <- df3.minmax[indx,]
-
 df4.test <- df3.minmax[-indx,]
 
 
