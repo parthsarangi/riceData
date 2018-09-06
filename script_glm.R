@@ -57,11 +57,11 @@ df1 <-read.csv("riceData.csv")
 str(df1)
 
 for(i in c(1:3)){
-  df1[[i]] <- as.factor(df1[[i]])
+  df[[i]] <- as.factor(df1[[i]])
 }
 
 for(i in c(4:18)){
-  df1[[i]] <- as.numeric(df1[[i]])
+  df[[i]] <- as.numeric(df1[[i]])
 }
 
 str(df1)
@@ -81,6 +81,16 @@ df1Test <- df1[-indx,]
 ### Trying Province Code 750
 df750 <- df[which(df$Province_Code == '750'),]
 
+str(df750)
+
+for(i in c(1:3)){
+  df750[[i]] <- as.factor(df750[[i]])
+}
+
+for(i in c(4:18)){
+  df750[[i]] <- as.numeric(df750[[i]])
+}
+
 dim(df750)
 
 df750$Year <- as.integer(df750$Year)
@@ -97,6 +107,8 @@ dim(dftrain)
 dim(dftest)
 
 
-glm(f,)
+modelglm <- lm(f,data = dftrain)
 
+predicted <- predict.lm(modelglm,newdata = dftest)
+actual <- dftest[[18]]
 
