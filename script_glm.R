@@ -83,6 +83,18 @@ df750 <- df[which(df$Province_Code == '750'),]
 
 dim(df750)
 
+df750$Year <- as.integer(df750$Year)
+
+n <-names(df750)
+f <- as.formula(paste(n[18],paste(n[c(-2,-3,-18)],collapse = " + "),sep=" ~ "))
+
+f
+
+dftrain <- df750[c(1:18),]
+dftest <-  df750[c(19:23),]
+
+dim(dftrain)
+dim(dftest)
 
 
 glm(f,)
