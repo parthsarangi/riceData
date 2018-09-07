@@ -1,4 +1,13 @@
 df <- read.csv("riceData.csv")
+
+for(i in c(1:3)){
+  df[[i]] <- as.factor(df[[i]])
+}
+
+for(i in c(4:18)){
+  df[[i]] <- as.numeric(df[[i]])
+}
+
 names(df)
 str(df)
 
@@ -29,7 +38,7 @@ str(df)
 # Number of rows according to Province Code
 for (i in levels(df[[3]])) {
   print(paste0("For province code >> ",i," << the rows in df are >> ",
-         nrow(df[which(df$Province_Code == i),])," <<") )
+               nrow(df[which(df$Province_Code == i),])," <<") )
 }
 
 # Number of rows according to Regional Code
@@ -108,7 +117,48 @@ dim(dftest)
 
 
 modelglm <- lm(f,data = dftrain)
-
 predicted <- predict.lm(modelglm,newdata = dftest)
+
 actual <- dftest[[18]]
+dftest <- cbind(dftest,predicted)
+
+
+
+
+dim(df)
+df$Year <- as.integer(df$Year)
+
+str(df)
+
+dffinal = data.frame(name=paste0("Below"),actualValue=0,predictedValue=0)
+
+for (i in levels(df[[3]])) {
+  print(paste0("processing for ",i))
+  subdf <- df[which(df$Province_Code == i),]
+  train_indx = round(0.8*nrow(subdf))
+  dftrain1 <- subdf[c(1:train_indx),]
+  dftest1 <- subdf[c((train_indx+1):nrow(subdf)),]
+  modelglm <- lm(f,data = dftrain1)
+  
+  predicted <- tryCatch({
+    predict.lm(modelglm,newdata = dftest1[-18])
+    },
+    error = function(e) {
+      print(paste0("error in ",i))
+    }
+  )
+  
+  actual <- dftest1[[18]]
+  dftest <- data.frame(rep(paste0("model_",i),length(actual)),actual,predicted)
+  name_of_file <- paste0("testingfor",i,".csv")
+  
+  dffinal = rbind(dffinal,dftest)
+  #write.csv(dftest,name_of_file,row.names = FALSE)
+}
+
+write.csv(dftest,"linear_regerssion.csv",row.names = FALSE)
+
+
+levels(df[[3]])
+
 
