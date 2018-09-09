@@ -1,3 +1,5 @@
+setwd("riceData")
+
 df <- read.csv("riceData.csv")
 names(df)
 str(df)
