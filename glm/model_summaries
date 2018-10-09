@@ -2,7 +2,7 @@ Trainging Dataset : 80 percent
 Testing dataset : 20 percentage
 
 I. Model: Support Vector Machine
-Call:
+Call:s
 svm(formula = yield_pa_area ~ ., data = df, kernel = "radial")
 
 
