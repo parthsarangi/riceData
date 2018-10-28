@@ -16,6 +16,8 @@ str(df)
 
 write.csv(df,"riceDataFactored.csv",row.names = FALSE)
 
+library(e1071)
+model.svm2 <- svm(yield_pa_area ~ .,data = df, kernel="radial")
 
 # Testing data
 df.nrow <- nrow(df)
@@ -25,14 +27,11 @@ df.test <- df[index.text,]
 names(df.test)
 dim(df.test)
 
-# Fit the GLM model
-
-glm.model.gaussian <- glm(yield_pa_area ~ .,data = df,family = 'gaussian')
-glm.model.poisson <- glm(yield_pa_area ~ .,data = df,family = 'poisson')
-
 # Value from LM
 predicted = predict.lm(model,newdata = df.test[c(-18)],se.fit = TRUE)
 
+# Value from SVM
+predicted = predict(model.svm2,df.test)
 
 #Check lengths of outputs
 length(predicted)
