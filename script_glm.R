@@ -1,3 +1,5 @@
+setwd("riceData")
+
 df <- read.csv("riceData.csv")
 
 for(i in c(1:3)){

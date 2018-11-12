@@ -1,0 +1,47 @@
+Trainging Dataset : 80 percent
+Testing dataset : 20 percentage
+
+I. Model: Support Vector Machine
+Call:s
+svm(formula = yield_pa_area ~ ., data = df, kernel = "radial")
+
+
+Parameters:
+   SVM-Type:  eps-regression 
+ SVM-Kernel:  radial 
+       cost:  1 
+      gamma:  0.007092199 
+    epsilon:  0.1 
+
+
+Number of Support Vectors:  734
+
+
+II. Model: Quantile Regression
+Call:
+rq(formula = yield_pa_area ~ ., tau = 0.25, data = df)
+
+Coefficients:
+      (Intercept)              year      reginal_zone     province_code 
+    -1.536748e+03      6.069703e-01      6.127031e-01     -1.316257e-02 
+     planted_area    harvested_area    production_ton     yield_ha_area 
+    -4.907290e-04      5.049448e-04      9.428923e-06      9.266416e-01 
+       sale_price     highest_price      lowest_price        peak_price 
+     4.010124e-03     -1.974381e-03     -3.454008e-03      1.167814e-04 
+compitation_price fertilizer1_price fertilizer2_price fertilizer3_price 
+     1.469422e-04     -1.848209e-03      6.320703e-03     -3.955323e-03 
+   fertilizer_use              cost 
+     2.970702e-01     -1.400471e-03 
+
+Degrees of freedom: 2116 total; 2098 residual
+
+
+III. Model: Random Forests
+Call:
+ randomForest(formula = yield_pa_area ~ ., data = df) 
+               Type of random forest: regression
+                     Number of trees: 500
+No. of variables tried at each split: 5
+
+          Mean of squared residuals: 710.68
+                    % Var explained: 96.35
