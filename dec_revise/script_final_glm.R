@@ -43,8 +43,10 @@ final.dataset <- cbind(final.dataset,predicted.svm)
 
 # ------------------------------------------------------------------------------------
 # Random Forest modelling
+library(randomForest)
 start.time <- Sys.time()
 
+model.randomForest <- randomForest(yield_pa_area ~ .,data = df.train)
 build.end.time <- Sys.time()
 build.time.taken.random <- build.end.time - start.time
 
