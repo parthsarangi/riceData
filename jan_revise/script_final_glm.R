@@ -1,6 +1,6 @@
 # Wordking directory
 # setwd("~/Documents/R/riceData/dec_revise")
-
+print(">> Script starting now")
 df = read.csv("ricedata_jan.csv")
 
 for (i in c(2:3)) {
@@ -17,6 +17,7 @@ final.dataset <- data.frame(actual=df.test$output_yield)
 
 # ------------------------------------------------------------------------------------
 # GLM modelling
+print("GLM model")
 start.time <- Sys.time()
 glm.model.gaussian <- glm(output_yield ~ .,data = df.train,family = 'gaussian')
 
@@ -32,6 +33,7 @@ final.dataset <- cbind(final.dataset,predicted.gaussian)
 # ------------------------------------------------------------------------------------
 # SVM modelling
 library(e1071)
+print("SVM model")
 start.time <- Sys.time()
 model.svm2 <- svm(output_yield ~ .,data = df.train, kernel="radial")
 
@@ -47,6 +49,7 @@ final.dataset <- cbind(final.dataset,predicted.svm)
 
 # ------------------------------------------------------------------------------------
 # Random Forest modelling
+print("Random Forest model")
 library(randomForest)
 start.time <- Sys.time()
 
@@ -63,7 +66,7 @@ final.dataset <- cbind(final.dataset,predicted.random)
 
 # ------------------------------------------------------------------------------------
 # neural network
-
+print("Neural Network model")
 df1 <- df
 
 df1.factor <- as.data.frame(lapply(df1[c(2,3,4)], as.integer))
@@ -115,15 +118,17 @@ final.dataset <- cbind(final.dataset,predicted.neural$net.result)
 
 # ------------------------------------------------------------------------------------
 # print the time taken
+cat("\n")
 print(paste0(" Time to build Gaussian Model ",build.time.taken.gaussian))
 print(paste0(' Time to predict the data ',predict.time.taken.gaussian))
-print("")
+cat("\n")
 print(paste0(" Time to build SVM model ",build.time.taken.svm))
 print(paste0(' Time to predict the data ',predict.time.taken.svm))
-print("")
+cat("\n")
 print(paste0(" Time to build Random Forest model ",build.time.taken.random))
 print(paste0(' Time to predict the data ',predict.time.taken.random))
-print("")
+cat("\n")
 print(paste0(" Time to build Neural Network model ",build.time.taken.neural))
 print(paste0(' Time to predict the data ',predict.time.taken.neural))
-
+cat("\n")
+print(">> Script ending now")
