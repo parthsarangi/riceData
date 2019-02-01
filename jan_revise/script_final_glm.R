@@ -113,7 +113,7 @@ predicted.neural = compute(model.neuralNetwork,df4.test[-1])
 predict.end.time <- Sys.time()
 predict.time.taken.neural <- predict.end.time - start.time
 
-final.dataset <- cbind(final.dataset,predicted.neural$net.result)
+final.dataset <- cbind(final.dataset,actual_scaled=df4.test$output_yield,predicted.neural$net.result)
 write.csv(final.dataset,"output_values.csv",row.names = FALSE,quote = FALSE)
 
 # ------------------------------------------------------------------------------------
@@ -131,7 +131,11 @@ cat("\n")
 print(paste0(" Time to build Neural Network model ",build.time.taken.neural))
 print(paste0(' Time to predict the data ',predict.time.taken.neural))
 cat("\n")
-print(">> Script ending now")
 
-predict.time.df <- data.frame(models=c("GLM","SVM","RandomForest","NeuralNetwork"),time_taken=c(predict.time.taken.gaussian,predict.time.taken.svm,predict.time.taken.random,predict.time.taken.neural))
+cat("Writng files")
+predict.time.df <- data.frame(models=c("GLM","SVM","RandomForest","NeuralNetwork"),
+                              time_taken=c(predict.time.taken.gaussian,predict.time.taken.svm,predict.time.taken.random,predict.time.taken.neural))
 write.csv(predict.time.df,"time_taken.csv",row.names = FALSE)
+
+
+print(">> Script ending now")
