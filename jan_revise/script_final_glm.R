@@ -3,6 +3,9 @@
 print(">> Script starting now")
 df = read.csv("ricedata_jan.csv")
 
+df.col = ncol(df)
+
+
 for (i in c(2:3)) {
   df[[i]] = as.factor(df[[i]])
 }
@@ -18,12 +21,14 @@ final.dataset <- data.frame(actual=df.test$output_yield)
 # ------------------------------------------------------------------------------------
 # GLM modelling
 print("GLM model")
+
 start.time <- Sys.time()
 glm.model.gaussian <- glm(output_yield ~ .,data = df.train,family = 'gaussian')
 
 build.end.time <- Sys.time()
 build.time.taken.gaussian <- build.end.time - start.time
 
+start.time <- Sys.time()
 predicted.gaussian = predict.lm(glm.model.gaussian,newdata = df.test[c(-1)])
 predict.end.time <- Sys.time()
 predict.time.taken.gaussian <- predict.end.time - start.time
@@ -34,12 +39,13 @@ final.dataset <- cbind(final.dataset,predicted.gaussian)
 # SVM modelling
 library(e1071)
 print("SVM model")
+
 start.time <- Sys.time()
 model.svm2 <- svm(output_yield ~ .,data = df.train, kernel="radial")
-
 build.end.time <- Sys.time()
 build.time.taken.svm <- build.end.time - start.time
 
+start.time <- Sys.time()
 predicted.svm = predict(model.svm2,df.test)
 predict.end.time <- Sys.time()
 predict.time.taken.svm <- predict.end.time - start.time
@@ -57,6 +63,7 @@ model.randomForest <- randomForest(output_yield ~ .,data = df.train[-3])
 build.end.time <- Sys.time()
 build.time.taken.random <- build.end.time - start.time
 
+start.time <- Sys.time()
 predicted.random = predict(model.randomForest,df.test)
 predict.end.time <- Sys.time()
 predict.time.taken.random <- predict.end.time - start.time
@@ -70,7 +77,8 @@ print("Neural Network model")
 df1 <- df
 
 df1.factor <- as.data.frame(lapply(df1[c(2,3,4)], as.integer))
-df1.continuous <- as.data.frame(lapply(df1[c(1,5:14)], as.numeric))
+df1.continuous <- as.data.frame(lapply(df1[c(1,5:df.col)], as.numeric))
+
 df2.Year_2532.min <- min(df1.factor$year)
 df2.Year_2532 <- df1.factor$year - df2.Year_2532.min
 
@@ -108,8 +116,8 @@ model.neuralNetwork <- neuralnet(f,df4.train,hidden = c(2,10),linear.output = TR
 build.end.time <- Sys.time()
 build.time.taken.neural <- build.end.time - start.time
 
+start.time <- Sys.time()
 predicted.neural = compute(model.neuralNetwork,df4.test[-1])
-
 predict.end.time <- Sys.time()
 predict.time.taken.neural <- predict.end.time - start.time
 
@@ -134,7 +142,8 @@ cat("\n")
 
 cat("Writng files")
 predict.time.df <- data.frame(models=c("GLM","SVM","RandomForest","NeuralNetwork"),
-                              time_taken=c(predict.time.taken.gaussian,predict.time.taken.svm,predict.time.taken.random,predict.time.taken.neural))
+                              build_time_taken=c(build.time.taken.gaussian,build.time.taken.svm,build.time.taken.random,build.time.taken.neural),
+                              prediction_time=c(predict.time.taken.gaussian,predict.time.taken.svm,predict.time.taken.random,predict.time.taken.neural))
 write.csv(predict.time.df,"time_taken.csv",row.names = FALSE)
 
 
