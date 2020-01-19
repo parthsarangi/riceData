@@ -1,0 +1,79 @@
+Province_name_thai,Province_name_eng,Province_Code,Zone,Region
+เชียงราย,Chiang Rai,10,12,North
+พะเยา,Phayao,20,12,North
+ลำปาง,Lampang,30,12,North
+ลำพูน,Lamphun,40,13,North
+เชียงใหม่,Chiang Mai,50,13,North
+แม่ฮ่องสอน,Mae Hong Son,60,13,North
+ตาก,Tak,70,9,West
+กำแพงเพชร,Kamphaeng Phet,80,9,Central
+สุโขทัย,Sukhothai,90,9,Central
+แพร่,Phrae,100,11,North
+อุตรดิตถ์,Uttaradit,120,11,North
+พิษณุโลก,Phitsanulok,130,10,Central
+พิจิตร,Phichit,140,10,Central
+นครสวรรค์,Nakhon Sawan,150,8,Central
+อุทัยธานี,Uthai Thani,160,8,Central
+เพชรบูรณ์,Phetchabun,170,8,Central
+เลย,Loey,180,1,North East
+อุดรธานี,Udon Thani,200,1,North East
+หนองคาย,Nong Khai,210,1,North East
+สกลนคร,Sakon Nakhon,220,2,North East
+นครพนม,Nakhon Phanom,230,2,North East
+มุกดาหาร,Mukdahan,240,2,North East
+ยโสธร,Yasothon,250,3,North East
+อุบลราชธานี,Ubon Ratchathani,270,3,North East
+ศรีสะเกษ,Si Sa Ket,280,5,North East
+สุรินทร์,Surin,290,5,North East
+บุรีรัมย์,Buri Ram,300,5,North East
+มหาสารคาม,Maha Sarakham,310,4,North East
+ร้อยเอ็ด,Roi Et,320,4,North East
+กาฬสินธุ์,Kalasin,330,4,North East
+ขอนแก่น,Khon Kaen,340,4,North East
+ชัยภูมิ,Chaiyaphum,350,6,North East
+นครราชสีมา,Nakhon Ratchasima,360,6,North East
+สระบุรี,Saraburi,370,7,Central
+ลพบุรี,Lop Buri,380,7,Central
+สิงห์บุรี,Sing Buri,390,14,Central
+ชัยนาท,Chai Nat,400,14,Central
+สุพรรณบุรี,Suphan Buri,410,14,Central
+อ่างทอง,Ang Thong,420,14,Central
+อยุธยา,Ayutthaya,430,15,Central
+นนทบุรี,Nonthaburi,440,15,Central
+กรุงเทพมหานคร,Bangkok,450,15,Central
+ปทุมธานี,Pathum Thani,460,15,Central
+นครนายก,Nakhon Nayok,470,18,Central
+ปราจีนบุรี,Prachin Buri,480,18,East
+ฉะเชิงเทรา,Chachoengsao,490,18,East
+จันทบุรี,Chanthaburi,510,20,East
+ตราด,Trat,520,20,East
+ระยอง,Rayong,530,19,East
+ชลบุรี,Chon Buri,540,19,East
+สมุทรปราการ,Samut Prakan,550,19,Central
+สมุทรสาคร,Samut Sakhon,560,17,Central
+นครปฐม,Nakhon Pathom,570,17,Central
+กาญจนบุรี,Kanchanaburi,580,16,East
+ราชบุรี,Ratchaburi,590,16,East
+สมุทรสงคราม,Samut Songkhram,600,17,Central
+เพชรบุรี,Phetchaburi,610,16,West
+ประจวบคีรีขันธ์,Prachuap Khiri Khan,620,16,West
+ชุมพร,Chumphon,630,21,South
+ระนอง,Ranong,640,21,South
+สุราษฎร์ธานี,Surat Thani,650,21,South
+พังงา,Phangnga,660,23,South
+ภูเก็ต,Phuket,670,23,South
+กระบี่,Krabi,680,23,South
+ตรัง,Trang,690,23,South
+นครศรีธรรมราช,Nakhon Si Thammarat,700,22,South
+พัทลุง,Phatthalung,710,22,South
+สงขลา,Songkhla,720,22,South
+สตูล,Satun,730,22,South
+ปัตตานี,Pattani,740,24,South
+ยะลา,Yala,750,24,South
+นราธิวาส,Narathiwat,760,24,South
+น่าน,Nan,110,11,North
+หนองบัวลำภู,Nong Bua Lam Phu,190,1,North East
+อำนาจเจริญ,Amnat Charoen,260,3,North East
+สระแก้ว,Sa Kaeo,500,20,East
+กรุงเทพฯ,Bangkok,450,15,Central
+บึงกาฬ,Bueng Kan,211,1,North East
