@@ -118,6 +118,7 @@ build.time.taken.neural <- build.end.time - start.time
 
 start.time <- Sys.time()
 predicted.neural = compute(model.neuralNetwork,df4.test[-1])
+
 predict.end.time <- Sys.time()
 predict.time.taken.neural <- predict.end.time - start.time
 
