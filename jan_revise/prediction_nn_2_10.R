@@ -1,68 +1,49 @@
-df = read.csv("ricedata_jan.csv")
+# ----------------------------------------------------------
 
-df.col = ncol(df)
-
-
-for (i in c(2:3)) {
-  df[[i]] = as.factor(df[[i]])
-}
-
-# Testing data
-df.nrow <- nrow(df)
-index.text <- sample(df.nrow,size = round(0.3*df.nrow))
-df.test <- df[index.text,]
-df.train <- df[-index.text,]
-
-final.dataset <- data.frame(actual=df.test$output_yield)
-
-df1 <- df
-
-df1.factor <- as.data.frame(lapply(df1[c(2,3,4)], as.integer))
-df1.continuous <- as.data.frame(lapply(df1[c(1,5:df.col)], as.numeric))
-
-df2.Year_2532.min <- min(df1.factor$year)
-df2.Year_2532 <- df1.factor$year - df2.Year_2532.min
-
-df2.Regional_min <- min(df1.factor$reginal_zone)
-df2.Regional <- df1.factor$reginal_zone - df2.Regional_min
-
-df2.Province_min <-  min(df1.factor$province_code)
-df2.Province <- df1.factor$province_code - df2.Province_min
-
-df3 <- data.frame(Year_coded=df2.Year_2532,Region_coded=df2.Regional,Province_coded=df2.Province)
-
-df3 <- cbind(df1.continuous,df3)
-
-n = names(df3)
-f <- as.formula(paste(n[1]," ~ ",paste(n[-1],collapse = " + ")))
-
-set.seed(2)
-indx <- sample(round(nrow(df3)*0.7))
-
-# min max normalization
+#normalization function
 normalizeMinMax <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
 
-denormMinMax <- function(x) {
-  return()
-}
 
+# Load pred dataset
+df_pred = read.csv(file = "./predic_rice_data.csv")
 
+# Load nn rds file
+neuralModel <- readRDS(file = "../neuralNet2_10.RDS")
+
+# perform data normalization
+df_pred.factor <- as.data.frame(lapply(df_pred[c(2,3,4)], as.integer))
+df_pred.continuous <- as.data.frame(lapply(df_pred[c(1,5:df.col)], as.numeric))
+df2.Year_2532.min <- min(df_pred.factor$year)
+df2.Year_2532 <- df_pred.factor$year - df2.Year_2532.min
+df2.Regional_min <- min(df_pred.factor$reginal_zone)
+df2.Regional <- df_pred.factor$reginal_zone - df2.Regional_min
+df2.Province_min <-  min(df_pred.factor$province_code)
+df2.Province <- df_pred.factor$province_code - df2.Province_min
+df3 <- data.frame(Year_coded=df2.Year_2532,Region_coded=df2.Regional,Province_coded=df2.Province)
+df3 <- cbind(df_pred.continuous,df3)
 df3.minmax <- as.data.frame(lapply(df3,normalizeMinMax))
-df4.train <- df3.minmax[indx,]
-df4.test <- df3.minmax[-indx,]
 
-#storing the min max values in a list
-list_length <- ncol(df3)
-minList <- vector(mode = "list", length = list_length)
-maxList<- vector(mode = "list", length = list_length)
+# predict yield
+library(neuralnet)
+predicted.yield = compute(neuralModel,df3.minmax[-1])
 
-colN = 1
-for (val in minList) {
-  minList[colN] <- min(df3[[colN]])
-  maxList[colN] <- max(df3[[colN]])
-  colN <- colN + 1
+# perform denorm on yield 
+df_original <- read.csv("ricedata_jan.csv")
+
+min_yield = min(df_original$output_yield)
+max_yield = max(df_original$output_yield)
+
+denormMinMax = function(x) {
+  return(x*(max_yield - min_yield) + min_yield)
 }
 
+predicte_yield = unlist(predicted.yield$net.result)
 
+denorm_yield = lapply(predicted.yield$net.result, denormMinMax)
+denorm_yield
+
+
+# save in file
+write.csv(x = unlist(denorm_yield), file = "./predicted_yield.csv",quote = FALSE,row.names = FALSE)
