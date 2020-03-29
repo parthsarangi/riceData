@@ -113,6 +113,9 @@ df4.test <- df3.minmax[-indx,]
 start.time <- Sys.time()
 model.neuralNetwork <- neuralnet(f,df4.train,hidden = c(2,10),linear.output = TRUE,stepmax = 1e6)
 
+#save neural network 2,10
+saveRDS(object = model.neuralNetwork,file = "../neuralNet2_10.RDS")
+
 build.end.time <- Sys.time()
 build.time.taken.neural <- build.end.time - start.time
 
