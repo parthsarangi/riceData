@@ -24,12 +24,16 @@ print("GLM model")
 
 start.time <- Sys.time()
 glm.model.gaussian <- glm(output_yield ~ .,data = df.train,family = 'gaussian')
-
+saveRDS(object = glm.model.gaussian,file = "glm_regression.RDS")
 build.end.time <- Sys.time()
 build.time.taken.gaussian <- build.end.time - start.time
 
 start.time <- Sys.time()
 predicted.gaussian = predict.lm(glm.model.gaussian,newdata = df.test[c(-1)])
+
+df_pred = read.csv(file = "./predic_rice_data_2560.csv")
+predict_yield = predict.glm(glm.model.gaussian, newdata = df_pred[-1])
+
 predict.end.time <- Sys.time()
 predict.time.taken.gaussian <- predict.end.time - start.time
 
@@ -62,6 +66,8 @@ start.time <- Sys.time()
 model.randomForest <- randomForest(output_yield ~ .,data = df.train[-3])
 build.end.time <- Sys.time()
 build.time.taken.random <- build.end.time - start.time
+
+saveRDS(object = model.randomForest,file = "randomForest_model.RDS")
 
 start.time <- Sys.time()
 predicted.random = predict(model.randomForest,df.test)
