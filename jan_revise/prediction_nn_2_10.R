@@ -72,15 +72,18 @@ plot(modelGLM)
 # ------------------------------------------------------------------------------------------------------------------------
 # prediction with randomForests (works)
 modelRandomForest = readRDS("randomForest_model.RDS")
-df_pred = read.csv(file = "predic_rice_data.csv")
+#df_pred = read.csv(file = "predic_rice_data.csv")
+df_pred = read.csv(file = "synthetic_random_generated_output.csv")
 
 predict_yield = predict(modelRandomForest, newdata = df_pred[-1])
 
-write.csv(x = predict_yield, file = "randomForest_predicted_output.csv",row.names = FALSE)
+df_pred[[1]] <- predict_yield
+write.csv(x = df_pred, file = "randomForest_predicted_output_new.csv",row.names = FALSE)
 
 plot(modelRandomForest)
 
-
+dfAll <- rbind(df[c(1:4)],df_pred[c(1:4)])
+write.csv(x = dfAll, file = "z_all_data_viz.csv",row.names = FALSE)
 # ------------------------------------------------------------------------------------------------------------------------
 
 
